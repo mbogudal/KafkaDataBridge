@@ -90,7 +90,7 @@ public class DynamicTableRepository {
                     insertTableName +
                     " (" +
                     String.join(", ", keySet.stream()
-                            .map(i -> i + (i.length() < 255 ? "VARCHAR(255)" : "CLOB"))
+                            .map(i -> i + " "+ (i.length() < 255 ? "VARCHAR(255)" : "CLOB"))
                             .toList()) +
                     ")";
             try (Statement statement = connection.createStatement()) {
