@@ -18,6 +18,7 @@ services:
       context: .
       dockerfile: dockerfile
     environment:
+      SPRING_KAFKA_CONSUMER_GROUP_ID: group-producer
       SPRING_PROFILES_ACTIVE: dev
       ENABLE_CONSUMER: false
       SERVER_PORT: 9004
@@ -32,6 +33,7 @@ services:
       dockerfile: dockerfile
     environment:
       SPRING_PROFILES_ACTIVE: dev
+      SPRING_KAFKA_CONSUMER_GROUP_ID: group-consumer
       READ_KAFKA_TOPIC: MOCK_DATABASE_INSERT
       INSERT_KAFKA_TOPIC: MOCK_DATABASE_READ2
       SERVER_PORT: 9005

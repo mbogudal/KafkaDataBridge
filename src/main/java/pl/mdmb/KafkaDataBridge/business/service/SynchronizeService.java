@@ -39,6 +39,7 @@ public class SynchronizeService {
         log.info("Sync started.");
         List<HashMap<String, String>> data = dynamicTableRepository.findAll();
         if (!data.equals(cash)) {
+            log.info("Proceeding "+data.size()+" elements.");
             cash = data;
             try {
                 kafkaProducerService.notifyNewData(JsonUtils.serialize(cash));
