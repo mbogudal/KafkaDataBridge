@@ -11,7 +11,7 @@ import lombok.NoArgsConstructor;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-@Table(name = "MockDatabase-Read")
+@Table(name = "MockDatabase_Read")
 public class MockDatabaseReadEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

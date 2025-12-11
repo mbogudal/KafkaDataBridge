@@ -11,7 +11,7 @@ import lombok.NoArgsConstructor;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-@Table(name = "MockDatabase-Insert")
+@Table(name = "MockDatabase_Insert")
 public class MockDatabaseInsertEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
