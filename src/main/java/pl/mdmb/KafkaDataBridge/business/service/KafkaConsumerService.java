@@ -35,6 +35,7 @@ public class KafkaConsumerService {
 
     @KafkaListener(topics = "${read.kafka.topic}", groupId = "${spring.kafka.consumer.group-id}")
     public void recieveNewData(String data) {
+        log.info("Received data");
         List<HashMap<String, String>> rows = null;
         try {
             rows = JsonUtils.deserialize(data, new TypeReference<List<HashMap<String, String>>>() {
