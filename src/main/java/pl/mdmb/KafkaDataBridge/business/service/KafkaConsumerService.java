@@ -25,7 +25,7 @@ public class KafkaConsumerService {
 
     private final DynamicTableRepository dynamicTableRepository;
 
-    @KafkaListener(topics = "${kafka.topic}", groupId = "${spring.kafka.consumer.group-id}")
+    @KafkaListener(topics = "${read.kafka.topic}", groupId = "${spring.kafka.consumer.group-id}")
     public void recieveNewData(String data) {
         List<HashMap<String, String>> rows = null;
         try {
