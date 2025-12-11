@@ -5,7 +5,7 @@ FROM eclipse-temurin:21-jdk-jammy
 WORKDIR /app
 
 # 3. Kopiujemy jar do kontenera
-COPY target/KafkaDataBridgeServer-0.0.1-SNAPSHOT.jar app.jar
+COPY target/KafkaDataBridge-0.0.1-SNAPSHOT.jar app.jar
 
 # 4. Uruchamiamy aplikację
 ENTRYPOINT ["java","-jar","app.jar"]
@@ -15,4 +15,4 @@ ENTRYPOINT ["java","-jar","app.jar"]
 #sprawdzanie obrazu
 # docker images
 #uruchamianiae
-# docker run -e "SPRING_PROFILES_ACTIVE=prod" kafkadatabridge:latest
+# docker run -e "SPRING_PROFILES_ACTIVE=dev" kafkadatabridge:latest

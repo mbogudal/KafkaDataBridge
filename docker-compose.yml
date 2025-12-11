@@ -1,0 +1,19 @@
+version '3.8'
+
+services:
+  zookeeper:
+    image: bitnami/zookeper:latest
+    ports:
+      - "2181:2181"
+    environment:
+      ALLO_ANONYMOUS_LOGIN: "yes"
+  kafka:
+    image: bitnami/kafka
+    ports:
+      - "9092:9092"
+    environment:
+      KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
+      ALLOW_PLAIN_TEXT_LISTENER: "yes"
+    depends_on:
+      - zookeeper
+    
