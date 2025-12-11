@@ -1,6 +1,5 @@
 package pl.mdmb.KafkaDataBridge.integration.repository;
 
-import lombok.RequiredArgsConstructor;
 import lombok.extern.java.Log;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -17,18 +16,25 @@ import java.util.stream.Collectors;
 
 @Service
 @Log
-@RequiredArgsConstructor
 public class DynamicTableRepository {
-    @Value("${table.name}")
-    private String tableName;
+    private final String insertTableName;
+    private final String readTableName;
     private final DataSource dataSource;
+
+    public DynamicTableRepository(@Value("${insert.table.name}")String insertTableName,
+                                  @Value("${read.table.name}")String readTableName,
+                                  DataSource dataSource) {
+        this.insertTableName = insertTableName;
+        this.readTableName = readTableName;
+        this.dataSource = dataSource;
+    }
 
     public List<HashMap<String, String>> findAll() {
         List<HashMap<String, String>> out = new ArrayList<>();
         try (Connection connection = dataSource.getConnection()) {
             ResultSet resultSet = connection
                     .createStatement()
-                    .executeQuery("SELECT * FROM " + tableName);
+                    .executeQuery("SELECT * FROM " + readTableName);
 
             ResultSetMetaData metaData = resultSet.getMetaData();
             HashMap<String, String> row = null;
@@ -64,5 +70,57 @@ public class DynamicTableRepository {
             log.info(e.getMessage());
         }
         return out;
+    }
+
+    public void insertData(List<HashMap<String, String>> rows) {
+
+        if(rows.isEmpty()){
+            log.severe("Rows are empty.");
+            return;
+        }
+
+        try (Connection connection = dataSource.getConnection()) {
+            List<String> keySet = rows.get(0).keySet().stream().toList();
+            String dropTable = "DROP TABLE " +
+                    insertTableName;
+
+            try (Statement statement = connection.createStatement()) {
+                statement.execute(dropTable);
+            }
+            String createTableSql = "CREATE TABLE " +
+                    insertTableName +
+                    " (" +
+                    String.join(", ", keySet.stream().map(i-> i.length()<255?"VARCHAR(255)":"CLOB").toList()) +
+                    ")";
+            try (Statement statement = connection.createStatement()) {
+                statement.execute(createTableSql);
+            }
+            String sql = "INSERT INTO " +
+                    insertTableName +
+                    " (" +
+                    String.join(", ", keySet) +
+                    ") VALUES (" +
+                    String.join(", ", keySet.stream().map(i -> "?").toList()) +
+                    ")";
+
+
+            try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
+                connection.setAutoCommit(false);
+                for (HashMap<String, String> row : rows) {
+                    for (int iColumn = 0; iColumn < keySet.size(); iColumn++) {
+                        preparedStatement.setObject(iColumn + 1, row.get(keySet.get(iColumn)));
+                    }
+                    preparedStatement.addBatch();
+                }
+                preparedStatement.executeBatch();
+                connection.commit();
+            } catch (SQLException ex) {
+                connection.rollback();
+                log.severe(ex.getMessage());
+            }
+
+        } catch (SQLException e) {
+            log.severe(e.getMessage());
+        }
     }
 }
