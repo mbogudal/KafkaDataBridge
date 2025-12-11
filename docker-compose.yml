@@ -7,11 +7,11 @@ services:
       KAFKA_NODE_ID: 1
       KAFKA_PROCESS_ROLES: broker,controller
       KAFKA_CONTROLLER_LISTENER_NAMES: CONTROLLER
-      KAFKA_LISTENERS: PLAINTEXT://:9092,CONTROLLER://:9003
+      KAFKA_LISTENERS: PLAINTEXT://:9002,CONTROLLER://:9003
       KAFKA_CONTROLLER_QUORUM_VOTERS: "1@kafka:9003"
       KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://kafka:9002
 
-  kafka-data-bridge-a:
+  kafka-data-bridge-producer:
     build:
       context: .
       dockerfile: dockerfile
@@ -20,7 +20,7 @@ services:
       ENABLE_CONSUMER: false
     depends_on:
       - kafka
-  kafka-data-bridge-b:
+  kafka-data-bridge-consumer:
     build:
       context: .
       dockerfile: dockerfile
@@ -29,4 +29,6 @@ services:
       READ_KAFKA_TOPIC: insert
     depends_on:
       - kafka
-      - kafka-data-bridge-a
+      - kafka-data-bridge-producer
+#stawianie środowiska
+#docker compose up --build
