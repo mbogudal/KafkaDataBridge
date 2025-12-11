@@ -80,7 +80,7 @@ public class DynamicTableRepository {
 
         try (Connection connection = dataSource.getConnection()) {
             List<String> keySet = rows.get(0).keySet().stream().toList();
-            String dropTable = "DROP TABLE " +
+            String dropTable = "DROP TABLE IF EXISTS " +
                     insertTableName;
 
             try (Statement statement = connection.createStatement()) {
