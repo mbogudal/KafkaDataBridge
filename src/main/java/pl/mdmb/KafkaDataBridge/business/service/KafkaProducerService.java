@@ -3,7 +3,9 @@ package pl.mdmb.KafkaDataBridge.business.service;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.java.Log;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Profile;
+import org.springframework.context.annotation.PropertySource;
 import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.stereotype.Service;
 
@@ -11,7 +13,9 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 @Service
 @Profile({"preprod","prod"})
-public class KafkaService {
+@ConfigurationProperties(prefix = "producer")
+@PropertySource("classpath:application-producer.properties")
+public class KafkaProducerService {
     @Value("kafka.topic")
     private String kafkaTopic;
     private final KafkaTemplate<String, String> kafkaTemplate;

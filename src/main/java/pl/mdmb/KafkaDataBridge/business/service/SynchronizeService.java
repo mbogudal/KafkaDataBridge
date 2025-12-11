@@ -23,7 +23,7 @@ public class SynchronizeService {
     @Getter
     private List<HashMap<String, String>> cash;
     private final DynamicTableRepository dynamicTableRepository;
-    private final KafkaService kafkaService;
+    private final KafkaProducerService kafkaProducerService;
 
     @EventListener(ApplicationReadyEvent.class)
     public void onReady() {
@@ -41,7 +41,7 @@ public class SynchronizeService {
         if (!data.equals(cash)) {
             cash = data;
             try {
-                kafkaService.notifyNewData(JsonUtils.serialize(cash));
+                kafkaProducerService.notifyNewData(JsonUtils.serialize(cash));
             } catch (JsonProcessingException e) {
                 log.severe(e.getMessage());
             }
