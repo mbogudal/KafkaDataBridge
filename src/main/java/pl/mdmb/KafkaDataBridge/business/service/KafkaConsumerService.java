@@ -59,6 +59,8 @@ public class KafkaConsumerService {
             log.severe(e.getMessage());
             return;
         }
+        log.info("Parsed data");
         dynamicTableRepository.insertData(rows);
+        log.info("Persisted data");
     }
 }

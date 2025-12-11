@@ -33,6 +33,7 @@ services:
       INSERT_KAFKA_TOPIC: MOCK_DATABASE_READ2
       SERVER_PORT: 9005
       SPRING_H2_CONSOLE_SETTINGS_WEB_ALLOW_OTHERS: true
+      SPRING_JPA_SHOW_SQL: true
     depends_on:
       - kafka
 

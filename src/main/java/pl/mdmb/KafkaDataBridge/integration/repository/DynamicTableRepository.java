@@ -86,6 +86,9 @@ public class DynamicTableRepository {
             try (Statement statement = connection.createStatement()) {
                 statement.execute(dropTable);
             }
+
+            log.info("Removed table "+insertTableName);
+
             String createTableSql = "CREATE TABLE " +
                     insertTableName +
                     " (" +
@@ -93,6 +96,9 @@ public class DynamicTableRepository {
                             .map(i -> i + " "+ (i.length() < 255 ? "VARCHAR(255)" : "CLOB"))
                             .toList()) +
                     ")";
+
+            log.info("Created table "+insertTableName);
+
             try (Statement statement = connection.createStatement()) {
                 statement.execute(createTableSql);
             }
