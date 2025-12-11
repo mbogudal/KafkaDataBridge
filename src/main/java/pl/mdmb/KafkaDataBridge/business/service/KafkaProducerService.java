@@ -11,7 +11,7 @@ import org.springframework.stereotype.Service;
 
 @Log
 @Service
-@Profile({"preprod","prod", "dev"})
+@Profile({"preprod", "prod", "dev"})
 @PropertySources({
         @PropertySource("classpath:application.properties"),
         @PropertySource("classpath:application-producer.properties")
@@ -28,7 +28,7 @@ public class KafkaProducerService {
 
     public void notifyNewData(String data) {
         kafkaTemplate.send(kafkaTopic, data);
-        log.info("Kafka event has been send.");
+        log.info("Kafka event has been send to the topic: " + kafkaTopic);
     }
 
 }

@@ -32,7 +32,8 @@ services:
       dockerfile: dockerfile
     environment:
       SPRING_PROFILES_ACTIVE: dev
-      READ_KAFKA_TOPIC: insert
+      READ_KAFKA_TOPIC: MOCK_DATABASE_INSERT
+      INSERT_KAFKA_TOPIC: MOCK_DATABASE_READ2
       SERVER_PORT: 9005
       SPRING_H2_CONSOLE_SETTINGS_WEB_ALLOW_OTHERS: true
     depends_on:
