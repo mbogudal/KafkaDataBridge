@@ -34,6 +34,8 @@ services:
       SERVER_PORT: 9005
       SPRING_H2_CONSOLE_SETTINGS_WEB_ALLOW_OTHERS: true
       SPRING_JPA_SHOW_SQL: true
+      INSERT_TABLE_NAME: TEMPORARY_TABLE
+      READ_TABLE_NAME: PROD_TABLE
     depends_on:
       - kafka
 
