@@ -21,8 +21,8 @@ public class DynamicTableRepository {
     private final String readTableName;
     private final DataSource dataSource;
 
-    public DynamicTableRepository(@Value("${insert.table.name}")String insertTableName,
-                                  @Value("${read.table.name}")String readTableName,
+    public DynamicTableRepository(@Value("${insert.table.name}") String insertTableName,
+                                  @Value("${read.table.name}") String readTableName,
                                   DataSource dataSource) {
         this.insertTableName = insertTableName;
         this.readTableName = readTableName;
@@ -73,7 +73,7 @@ public class DynamicTableRepository {
 
     public void insertData(List<HashMap<String, String>> rows) {
 
-        if(rows.isEmpty()){
+        if (rows.isEmpty()) {
             log.severe("Rows are empty.");
             return;
         }
@@ -89,7 +89,9 @@ public class DynamicTableRepository {
             String createTableSql = "CREATE TABLE " +
                     insertTableName +
                     " (" +
-                    String.join(", ", keySet.stream().map(i-> i.length()<255?"VARCHAR(255)":"CLOB").toList()) +
+                    String.join(", ", keySet.stream()
+                            .map(i -> i + (i.length() < 255 ? "VARCHAR(255)" : "CLOB"))
+                            .toList()) +
                     ")";
             try (Statement statement = connection.createStatement()) {
                 statement.execute(createTableSql);
