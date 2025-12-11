@@ -1,0 +1,21 @@
+<component name="ProjectRunConfigurationManager">
+  <configuration default="false" name="dev2 KafkaDataBridgeApplication" type="Application" factoryName="Application">
+    <option name="ALTERNATIVE_JRE_PATH" value="openjdk-21" />
+    <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="true" />
+    <envs>
+      <env name="SPRING_PROFILES_ACTIVE" value="dev2" />
+    </envs>
+    <option name="MAIN_CLASS_NAME" value="pl.mdmb.KafkaDataBridge.KafkaDataBridgeApplication" />
+    <module name="KafkaDataBridgeProducer" />
+    <option name="PROGRAM_PARAMETERS" value="-Dspring-boot.run.profiles=dev" />
+    <extension name="coverage">
+      <pattern>
+        <option name="PATTERN" value="pl.mdmb.KafkaDataBridge.*" />
+        <option name="ENABLED" value="true" />
+      </pattern>
+    </extension>
+    <method v="2">
+      <option name="Make" enabled="true" />
+    </method>
+  </configuration>
+</component>

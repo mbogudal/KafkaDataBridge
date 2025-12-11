@@ -39,7 +39,6 @@ public class DynamicTableRepository {
             ResultSetMetaData metaData = resultSet.getMetaData();
             HashMap<String, String> row = null;
 
-
             while (resultSet.next()) {
                 row = new HashMap<>();
                 for (int i = 1; i <= metaData.getColumnCount(); i++) {
