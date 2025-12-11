@@ -4,6 +4,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.java.Log;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Profile;
 import org.springframework.context.annotation.PropertySource;
@@ -18,9 +19,13 @@ import java.util.List;
 @Log
 @RequiredArgsConstructor
 @Service
-@Profile({"preprod","prod"})
+@Profile({"preprod","prod", "dev"})
 @ConfigurationProperties(prefix = "consumer")
 @PropertySource("classpath:application-consumer.properties")
+@ConditionalOnProperty(
+        name = "enable.consumer",
+        havingValue = "true"
+)
 public class KafkaConsumerService {
 
     private final DynamicTableRepository dynamicTableRepository;

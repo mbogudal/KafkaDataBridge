@@ -18,7 +18,7 @@ import java.util.List;
 @Log
 @RequiredArgsConstructor
 @Service
-@Profile({"preprod","prod"})
+@Profile({"preprod","prod", "dev"})
 public class SynchronizeService {
     @Getter
     private List<HashMap<String, String>> cash;

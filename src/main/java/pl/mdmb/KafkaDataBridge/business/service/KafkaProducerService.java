@@ -10,7 +10,7 @@ import org.springframework.stereotype.Service;
 
 @Log
 @Service
-@Profile({"preprod","prod"})
+@Profile({"preprod","prod", "dev"})
 @ConfigurationProperties(prefix = "producer")
 @PropertySource("classpath:application-producer.properties")
 public class KafkaProducerService {
