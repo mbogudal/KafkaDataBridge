@@ -8,6 +8,7 @@ import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Profile;
 import org.springframework.context.annotation.PropertySource;
+import org.springframework.context.annotation.PropertySources;
 import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.stereotype.Service;
 import pl.mdmb.KafkaDataBridge.integration.repository.DynamicTableRepository;
@@ -20,8 +21,10 @@ import java.util.List;
 @RequiredArgsConstructor
 @Service
 @Profile({"preprod","prod", "dev"})
-@ConfigurationProperties(prefix = "consumer")
-@PropertySource("classpath:application-consumer.properties")
+@PropertySources({
+        @PropertySource("classpath:application.properties"),
+        @PropertySource("classpath:application-consumer.properties")
+})
 @ConditionalOnProperty(
         name = "enable.consumer",
         havingValue = "true"
