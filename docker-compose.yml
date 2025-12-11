@@ -2,29 +2,24 @@ services:
   kafka:
     image: apache/kafka:latest
     ports:
-      - "9002:9002"
+      - "9092:9092"
     environment:
       KAFKA_NODE_ID: 1
       KAFKA_PROCESS_ROLES: broker,controller
       KAFKA_CONTROLLER_LISTENER_NAMES: CONTROLLER
-      KAFKA_LISTENERS: PLAINTEXT://:9002,CONTROLLER://:9003
-      KAFKA_CONTROLLER_QUORUM_VOTERS: "1@kafka:9003"
-      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://kafka:9002
+      KAFKA_LISTENERS: PLAINTEXT://0.0.0.0:9092,CONTROLLER://0.0.0.0:9093
+      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://kafka:9092
+      KAFKA_CONTROLLER_QUORUM_VOTERS: "1@kafka:9093"
+      KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: CONTROLLER:PLAINTEXT,PLAINTEXT:PLAINTEXT
+      KAFKA_INTER_BROKER_LISTENER_NAME: PLAINTEXT
+      KAFKA_LOG_DIRS: /var/lib/kafka/data
+      KAFKA_AUTO_CREATE_TOPICS_ENABLE: "true"
+      KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
+      KAFKA_LOG_RETENTION_HOURS: 168
+      KAFKA_GROUP_INITIAL_REBALANCE_DELAY_MS: 0
+      CLUSTER_ID: "Mk3OEYBSD34fcwNTJENDM2Qk"
+      volumes: "./data:/var/lib/kafka/data"
 
-  kafka-data-bridge-producer:
-    ports:
-      - "9004:9004"
-    build:
-      context: .
-      dockerfile: dockerfile
-    environment:
-      SPRING_KAFKA_CONSUMER_GROUP_ID: group-producer
-      SPRING_PROFILES_ACTIVE: dev
-      ENABLE_CONSUMER: false
-      SERVER_PORT: 9004
-      SPRING_H2_CONSOLE_SETTINGS_WEB_ALLOW_OTHERS: true
-    depends_on:
-      - kafka
   kafka-data-bridge-consumer:
     ports:
       - "9005:9005"
@@ -40,6 +35,20 @@ services:
       SPRING_H2_CONSOLE_SETTINGS_WEB_ALLOW_OTHERS: true
     depends_on:
       - kafka
-      - kafka-data-bridge-producer
+
+  kafka-data-bridge-producer:
+    ports:
+      - "9004:9004"
+    build:
+      context: .
+      dockerfile: dockerfile
+    environment:
+      SPRING_KAFKA_CONSUMER_GROUP_ID: group-producer
+      SPRING_PROFILES_ACTIVE: dev
+      ENABLE_CONSUMER: false
+      SERVER_PORT: 9004
+      SPRING_H2_CONSOLE_SETTINGS_WEB_ALLOW_OTHERS: true
+    depends_on:
+      - kafka
 #stawianie środowiska
 #docker compose up --build
