@@ -45,6 +45,8 @@ public class SynchronizeService {
             } catch (JsonProcessingException e) {
                 log.severe(e.getMessage());
             }
+        } else {
+            log.info("Nothing to proceed.");
         }
     }
 

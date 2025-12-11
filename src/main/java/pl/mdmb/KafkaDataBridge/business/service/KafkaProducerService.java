@@ -28,7 +28,7 @@ public class KafkaProducerService {
 
     public void notifyNewData(String data) {
         kafkaTemplate.send(kafkaTopic, data);
-        log.info("Kafka event has been send.");
+        log.info("Kafka event has been send. " + data.length() + " rows.");
     }
 
 }
