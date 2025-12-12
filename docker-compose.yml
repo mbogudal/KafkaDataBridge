@@ -20,26 +20,7 @@ services:
       CLUSTER_ID: "Mk3OEYBSD34fcwNTJENDM2Qk"
       volumes: "./data:/var/lib/kafka/data"
 
-  kafka-data-bridge-consumer:
-    ports:
-      - "9005:9005"
-    build:
-      context: .
-      dockerfile: dockerfile
-    environment:
-      SPRING_PROFILES_ACTIVE: dev
-      SPRING_KAFKA_CONSUMER_GROUP_ID: group-consumer
-      READ_KAFKA_TOPIC: MOCK_DATABASE_INSERT
-      INSERT_KAFKA_TOPIC: MOCK_DATABASE_READ2
-      SERVER_PORT: 9005
-      SPRING_H2_CONSOLE_SETTINGS_WEB_ALLOW_OTHERS: true
-      SPRING_JPA_SHOW_SQL: true
-      INSERT_TABLE_NAME: TEMPORARY_TABLE
-      READ_TABLE_NAME: PROD_TABLE
-    depends_on:
-      - kafka
-
-  kafka-data-bridge-producer:
+  kafka-data-bridge-a:
     ports:
       - "9004:9004"
     build:
@@ -51,6 +32,45 @@ services:
       ENABLE_CONSUMER: false
       SERVER_PORT: 9004
       SPRING_H2_CONSOLE_SETTINGS_WEB_ALLOW_OTHERS: true
+      INSERT_KAFKA_TOPIC: TOPIC_A
+    depends_on:
+      - kafka
+
+  kafka-data-bridge-b:
+    ports:
+      - "9005:9005"
+    build:
+      context: .
+      dockerfile: dockerfile
+    environment:
+      SPRING_PROFILES_ACTIVE: dev
+      SPRING_KAFKA_CONSUMER_GROUP_ID: group-consumer
+      READ_KAFKA_TOPIC: TOPIC_A
+      INSERT_KAFKA_TOPIC: TOPIC_B
+      SERVER_PORT: 9005
+      SPRING_H2_CONSOLE_SETTINGS_WEB_ALLOW_OTHERS: true
+      SPRING_JPA_SHOW_SQL: true
+      INSERT_TABLE_NAME: TEMPORARY_TABLE_B
+      READ_TABLE_NAME: TEMPORARY_TABLE_B
+    depends_on:
+      - kafka
+
+  kafka-data-bridge-c:
+    ports:
+      - "9006:9006"
+    build:
+      context: .
+      dockerfile: dockerfile
+    environment:
+      SPRING_PROFILES_ACTIVE: dev
+      SPRING_KAFKA_CONSUMER_GROUP_ID: group-consumer
+      READ_KAFKA_TOPIC: TOPIC_B
+      INSERT_KAFKA_TOPIC: TOPIC_C
+      SERVER_PORT: 9006
+      SPRING_H2_CONSOLE_SETTINGS_WEB_ALLOW_OTHERS: true
+      SPRING_JPA_SHOW_SQL: true
+      INSERT_TABLE_NAME: TEMPORARY_TABLE_C
+      READ_TABLE_NAME: NON_EXISTING_TABLE_C
     depends_on:
       - kafka
 #stawianie środowiska

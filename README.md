@@ -5,20 +5,18 @@ It enables seamless message flow between systems, acting as a producer, consumer
 
 ---
 
-## 📸 Project Overview (add your images)
-
 ### System Architecture
-Add your architecture diagram here:
 
-![Architecture Diagram](docs/img/architecture.png)
+![Architecture Diagram](docs/img/data-flow-chart.png)
 
 ---
 
 ## ✨ Features
 
 - 📡 Easy Kafka producer/consumer configuration  
-- 🔗 Acts as a message bridge between microservices  
+- 🔗 Acts as a message bridge between data sources  
 - 🐳 Docker-ready configuration  
+- 🐳 Production-ready docker composition demo
 - ⚙️ Customizable topics and message routing  
 - 🔍 Clear modular structure for further expansion  
 
@@ -26,7 +24,7 @@ Add your architecture diagram here:
 
 ## 📦 Requirements
 
-- Java 17+  
+- Java 21+  
 - Apache Kafka (local or remote broker)  
 - Maven 3+  
 - Docker (optional)  
@@ -38,4 +36,6 @@ Add your architecture diagram here:
 ```bash
 git clone https://github.com/mbogudal/KafkaDataBridge.git
 cd KafkaDataBridge
-mvn clean install
+mvn clean compile package
+docker build -t kafkadatabridge:latest .  
+docker up --build
