@@ -50,8 +50,8 @@ services:
         SERVER_PORT: 9005
         SPRING_H2_CONSOLE_SETTINGS_WEB_ALLOW_OTHERS: true
         SPRING_JPA_SHOW_SQL: true
-        INSERT_TABLE_NAME: TEMPORARY_TABLE
-        READ_TABLE_NAME: PROD_TABLE
+        INSERT_TABLE_NAME: TEMPORARY_TABLE_B
+        READ_TABLE_NAME: TEMPORARY_TABLE_B
       depends_on:
         - kafka
 
@@ -69,8 +69,8 @@ services:
           SERVER_PORT: 9006
           SPRING_H2_CONSOLE_SETTINGS_WEB_ALLOW_OTHERS: true
           SPRING_JPA_SHOW_SQL: true
-          INSERT_TABLE_NAME: TEMPORARY_TABLE
-          READ_TABLE_NAME: PROD_TABLE
+          INSERT_TABLE_NAME: TEMPORARY_TABLE_C
+          READ_TABLE_NAME: NON_EXISTING_TABLE_C
         depends_on:
           - kafka
 #stawianie środowiska
