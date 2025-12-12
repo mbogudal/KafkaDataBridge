@@ -32,46 +32,46 @@ services:
       ENABLE_CONSUMER: false
       SERVER_PORT: 9004
       SPRING_H2_CONSOLE_SETTINGS_WEB_ALLOW_OTHERS: true
-      INSERT_KAFKA_TOPIC: MOCK_DATABASE-A
+      INSERT_KAFKA_TOPIC: MOCK_DATABASE_A
     depends_on:
       - kafka
-      -
-    kafka-data-bridge-b:
-      ports:
-        - "9005:9005"
-      build:
-        context: .
-        dockerfile: dockerfile
-      environment:
-        SPRING_PROFILES_ACTIVE: dev
-        SPRING_KAFKA_CONSUMER_GROUP_ID: group-consumer
-        READ_KAFKA_TOPIC: MOCK_DATABASE-A
-        INSERT_KAFKA_TOPIC: MOCK_DATABASE-B
-        SERVER_PORT: 9005
-        SPRING_H2_CONSOLE_SETTINGS_WEB_ALLOW_OTHERS: true
-        SPRING_JPA_SHOW_SQL: true
-        INSERT_TABLE_NAME: TEMPORARY_TABLE_B
-        READ_TABLE_NAME: TEMPORARY_TABLE_B
-      depends_on:
-        - kafka
 
-      kafka-data-bridge-b:
-        ports:
-          - "9006:9006"
-        build:
-          context: .
-          dockerfile: dockerfile
-        environment:
-          SPRING_PROFILES_ACTIVE: dev
-          SPRING_KAFKA_CONSUMER_GROUP_ID: group-consumer
-          READ_KAFKA_TOPIC: MOCK_DATABASE-B
-          INSERT_KAFKA_TOPIC: MOCK_DATABASE-C
-          SERVER_PORT: 9006
-          SPRING_H2_CONSOLE_SETTINGS_WEB_ALLOW_OTHERS: true
-          SPRING_JPA_SHOW_SQL: true
-          INSERT_TABLE_NAME: TEMPORARY_TABLE_C
-          READ_TABLE_NAME: NON_EXISTING_TABLE_C
-        depends_on:
-          - kafka
+  kafka-data-bridge-b:
+    ports:
+      - "9005:9005"
+    build:
+      context: .
+      dockerfile: dockerfile
+    environment:
+      SPRING_PROFILES_ACTIVE: dev
+      SPRING_KAFKA_CONSUMER_GROUP_ID: group-consumer
+      READ_KAFKA_TOPIC: MOCK_DATABASE_A
+      INSERT_KAFKA_TOPIC: MOCK_DATABASE_B
+      SERVER_PORT: 9005
+      SPRING_H2_CONSOLE_SETTINGS_WEB_ALLOW_OTHERS: true
+      SPRING_JPA_SHOW_SQL: true
+      INSERT_TABLE_NAME: TEMPORARY_TABLE_B
+      READ_TABLE_NAME: TEMPORARY_TABLE_B
+    depends_on:
+      - kafka
+
+  kafka-data-bridge-c:
+    ports:
+      - "9006:9006"
+    build:
+      context: .
+      dockerfile: dockerfile
+    environment:
+      SPRING_PROFILES_ACTIVE: dev
+      SPRING_KAFKA_CONSUMER_GROUP_ID: group-consumer
+      READ_KAFKA_TOPIC: MOCK_DATABASE_B
+      INSERT_KAFKA_TOPIC: MOCK_DATABASE_C
+      SERVER_PORT: 9006
+      SPRING_H2_CONSOLE_SETTINGS_WEB_ALLOW_OTHERS: true
+      SPRING_JPA_SHOW_SQL: true
+      INSERT_TABLE_NAME: TEMPORARY_TABLE_C
+      READ_TABLE_NAME: NON_EXISTING_TABLE_C
+    depends_on:
+      - kafka
 #stawianie środowiska
 #docker compose up --build
